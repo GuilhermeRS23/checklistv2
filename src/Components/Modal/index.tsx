@@ -88,8 +88,10 @@ const Modal = ({ teste }: PropsModal) => {
 
                 <button
                   type="button"
+                  title="Em desenvolvimento"
+                  disabled
                   onClick={() => functionSaveTest(teste._id, teste.description, teste.resultado, teste.observacao)}
-                  className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer"
+                  className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop"
                 >
                   <FaRegSave /> Salvar
                 </button>
