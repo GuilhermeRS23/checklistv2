@@ -1,11 +1,10 @@
 import { ReactNode } from "react"
+import { FaRegSave, FaRegTrashAlt } from "react-icons/fa";
 import ModalCadastro from "../../../Components/ModalCadastros";
 import AddGrupo from "../../../Components/Form/AddGrupo";
 import AddSubGrupo from "../../../Components/Form/AddSubGrupo";
-import { DocumentArrowDownIcon } from "@heroicons/react/24/solid";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline"; // Corrected import path
-import LoadingPNG from "/loading.png"
 import Modal from "../../Modal";
+import LoadingPNG from "/loading.png"
 
 interface PropsTableDefault {
   children?: ReactNode;
@@ -72,22 +71,22 @@ const TableListTests = (
             src={LoadingPNG} alt="Loading" />
           Carregando testes...
         </span> :
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sm:overflow-x-auto">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">Casos de Uso</th>
               <th scope="col" className="px-6 py-3">Visualizar</th>
               <th scope="col" className="px-6 py-3">Resultado</th>
               <th scope="col" className="px-6 py-3 print:hidden">Observações</th>
-              <th scope="col" className="px-6 py-3 print:hidden">Instruções</th>
               <th scope="col" className="px-6 py-3 print:hidden">Ações</th>
             </tr>
           </thead>
+
           <tbody>
             {listaDe.map((item) => (
               <tr key={item._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-gray-200" >
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-gray-200 sm:w-full md:w-5/10">
                   {item.description}
                 </th>
                 <td className="px-6 py-4 text-gray-800 dark:text-gray-200 print:hidden">
@@ -106,8 +105,9 @@ const TableListTests = (
                     <option value="Não Passou">Não Passou</option>
                   </select>
                 </td>
-                <td className="px-2 py-4 w-2/10">
-                  <div className="w-full md:w-8/10 m-auto">
+
+                <td className="px-2 py-4">
+                  <div className="w-full m-auto">
                     <label htmlFor="text"
                       className="block font-Oswald dark:text-gray-400">
                     </label>
@@ -121,24 +121,17 @@ const TableListTests = (
                   </div>
                 </td>
 
-                <td className="py-4 w-10 print:hidden">
-                  {item.files ?
-                    <a href={item.files} target="_blank" rel="noopener noreferrer"
-                      title="Instrução" className="mx-auto">
-                      <DocumentArrowDownIcon className="size-5" />
-                    </a> :
-                    <ExclamationCircleIcon className="size-5 mx-auto" title="Instrução indisponivel para esse teste" />}
-                </td>
-
-                <td className="py-4 px-2 w-15 print:hidden">
-                  <span className="flex gap-2 justify-around md:flex-col px-2">
-                    <button className="button disabled:bg-green-400/25 disabled:cursor-not-allowed bg-green-400"
+                <td className="py-4 px-2 print:hidden">
+                  <span className="flex gap-2 justify-around flex-col px-2">
+                    <button className="button disabled:bg-green-400/25 disabled:cursor-not-allowed bg-green-400
+                    flex items-center gap-2 justify-center"
                       onClick={() => buttonSave(item._id, item.resultado, item.observacao)}
-                      disabled={hasUser}>Salvar</button>
+                      disabled={hasUser}> <FaRegSave /> Salvar</button>
 
                     {!admin &&
-                      <button className="button bg-red-400"
-                        onClick={() => buttonDelete(item._id)}>Excluir</button>
+                      <button className="button bg-red-400
+                       disabled:bg-red-400/25 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
+                        onClick={() => buttonDelete(item._id)}> <FaRegTrashAlt /> Excluir</button>
                     }
                   </span>
                 </td>

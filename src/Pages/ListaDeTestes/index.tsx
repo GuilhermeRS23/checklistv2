@@ -194,7 +194,7 @@ export default function ListaDeTestes() {
     <TableListTests
       title="Lista de Testes"
       listaDe={testesFiltrados}
-      hasUser={!user}          // ✅ Corrigido
+      hasUser={!user}
       admin={!user?.admin}
       loading={loadingTestes}
       hasSession={sessionAtiva}
@@ -279,7 +279,8 @@ export default function ListaDeTestes() {
           setValor={handleSubGrupoSelecionado}
           disabled={!grupoSelecionado} />
 
-        <span className="w-full content-around text-end text-md px-5 font-Oswald dark:text-blue-50">Total de Testes: {testesFiltrados.length}</span>
+        <span className="w-full content-around text-end text-md px-5 font-Oswald dark:text-blue-50">
+          Total de Testes: {testesFiltrados.length}</span>
       </div>
     </TableListTests>
   );

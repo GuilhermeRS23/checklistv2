@@ -2,7 +2,7 @@ import { MessagemToastify } from "../Components/Toastify";
 import { useDeleteTesteMutation, useUpdateTesteMutation } from "../services/testeService";
 
 const useDeleteSave = () => {
-  const [updateTeste] = useUpdateTesteMutation();
+  const [updateTeste, { isLoading }] = useUpdateTesteMutation();
   const [deleteTeste] = useDeleteTesteMutation();
 
   const functionSaveTest = async (id: string, description: string, resultado: string, observacao: string | undefined) => {
@@ -30,7 +30,7 @@ const useDeleteSave = () => {
     MessagemToastify("Teste excluído com Sucesso!", "success");
   };
 
-  return { functionDeleteTest, functionSaveTest };
+  return { functionDeleteTest, functionSaveTest, isLoading };
 };
 
 export default useDeleteSave;

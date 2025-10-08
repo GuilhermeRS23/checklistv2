@@ -1,18 +1,25 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { LuTextSearch } from "react-icons/lu";
-import { FaRegSave, FaRegTrashAlt } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
+import { FaRegEdit, FaRegSave } from "react-icons/fa";
+import { ArrowPathIcon, DocumentArrowDownIcon } from "@heroicons/react/20/solid";
+import { RootReducer } from "../../store";
 import useDeleteSave from "../../Hooks/useSaveDelete";
 
 type PropsModal = { teste: ITeste }
 const Modal = ({ teste }: PropsModal) => {
   const [openModal, setOpenModal] = useState(false);
-  const { functionDeleteTest, functionSaveTest } = useDeleteSave();
+  const [tempObs, setTempObs] = useState(teste.observacao);
+  const [tempResult, setTempResult] = useState(teste.resultado);
+  const { functionSaveTest, isLoading } = useDeleteSave();
+  const { user } = useSelector((state: RootReducer) => state.user);
 
   return (
     <>
       <span className='flex gap-1 items-center cursor-pointer'>
-        <LuTextSearch size={25} onClick={() => setOpenModal(true)} title="Exibir Teste" />
+        <LuTextSearch size={25} onClick={() => setOpenModal(true)} title="Exibir Teste" className="mx-auto" />
       </span>
 
       <Dialog open={openModal} onClose={setOpenModal} className="relative z-auto">
@@ -36,10 +43,8 @@ const Modal = ({ teste }: PropsModal) => {
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Caso de Uso
                   </h3>
-                  <button onClick={() => setOpenModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
-                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
+                  <button onClick={() => setOpenModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" data-modal-hide="static-modal">
+                    <IoCloseSharp size={25} />
                     <span className="sr-only">Close modal</span>
                   </button>
                 </div>
@@ -51,20 +56,34 @@ const Modal = ({ teste }: PropsModal) => {
                   {teste.description}
                 </p>
 
-                <div className="flex items-center gap-2">
-                  <label htmlFor="resultado" className="block font-Oswald dark:text-gray-200 text-md">
-                    Resultado:
-                  </label>
-                  <select id="resultado" className="block py-2.5 px-1 text-md text-gray-950 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-200 dark:bg-gray-700 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    value={teste.resultado}
-                  >
-                    <option value="Não Testado">Não Testado</option>
-                    <option value="Passou">Passou</option>
-                    <option value="Não Passou">Não Passou</option>
-                  </select>
+                <div className="flex items-center gap-2 justify-between">
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="resultado" className="block font-Oswald dark:text-gray-200 text-md">
+                      Resultado:
+                    </label>
+                    <select id="resultado" className="block py-2.5 px-1 text-md text-gray-950 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-200 dark:bg-gray-700 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                      value={tempResult}
+                      onChange={(e) => setTempResult(e.target.value)}
+                    >
+                      <option value="Não Testado">Não Testado</option>
+                      <option value="Passou">Passou</option>
+                      <option value="Não Passou">Não Passou</option>
+                    </select>
+                  </div>
+
+                  {teste.files && (
+                    <span>
+                      <a href={teste.files} target="_blank" rel="noopener noreferrer"
+                        title="Instrução" className="mx-auto flex gap-2 justify-around px-2
+                     w-full items-center rounded-md bg-blue-600 py-2 font-semibold text-white shadow-xs hover:bg-blue-500 sm:ml-3 sm:w-auto cursor-pointe">
+                        <DocumentArrowDownIcon className="size-5" /> Instrução
+                      </a>
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2">
+
                   <label htmlFor="text" className="block font-Oswald dark:text-gray-200">
                     Observações:
                   </label>
@@ -72,35 +91,49 @@ const Modal = ({ teste }: PropsModal) => {
                     id="obs"
                     type="text"
                     placeholder="Sem observações"
+                    value={tempObs}
+                    onChange={(e) => setTempObs(e.target.value)}
                   />
                 </div>
               </div>
 
               {/* <!-- Modal Footer --> */}
               <div className="px-4 pb-2 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  onClick={() => functionDeleteTest(teste._id)}
-                  className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto cursor-pointer"
-                >
-                  <FaRegTrashAlt /> Excluir
-                </button>
+                {user &&
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => alert("Em desenvolvimento")}
+                      className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:ml-3 sm:w-auto cursor-pointer"
+                    >
+                      <FaRegEdit /> Editar
+                    </button>
 
-                <button
-                  type="button"
-                  title="Em desenvolvimento"
-                  disabled
-                  onClick={() => functionSaveTest(teste._id, teste.description, teste.resultado, teste.observacao)}
-                  className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop"
-                >
-                  <FaRegSave /> Salvar
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => functionSaveTest(teste._id, teste.description, tempResult, tempObs)}
+                      className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <ArrowPathIcon className="size-5 animate-spin" />
+                          Salvando...
+                        </>
+                      ) :
+                        <>
+                          <FaRegSave /> Salvar
+                        </>
+                      }
+                    </button>
+                  </>
+                }
 
               </div>
             </DialogPanel>
           </div>
-        </div>
-      </Dialog>
+        </div >
+      </Dialog >
     </>
   )
 };
