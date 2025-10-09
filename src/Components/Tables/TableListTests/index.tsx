@@ -13,7 +13,9 @@ interface PropsTableDefault {
   hasUser: boolean;
   admin: boolean;
   hasGruposSelecionado: string;
-  loading: boolean;
+  testestLoading: boolean;
+  deleteLoading: boolean;
+  saveLoading: boolean;
   hasSession: IDadosSessao | undefined;
   onchangeResult?: (id: string, e: React.ChangeEvent<HTMLSelectElement>) => Promise<void> | undefined;
   onchangeObservation?: (id: string, e: React.ChangeEvent<HTMLInputElement>) => Promise<void> | undefined;
@@ -26,7 +28,7 @@ interface PropsTableDefault {
 
 const TableListTests = (
   { children, listaDe, hasSession,
-    loading, title, hasUser, admin, hasGruposSelecionado,
+    testestLoading, saveLoading, deleteLoading, title, hasUser, admin, hasGruposSelecionado,
     buttonDelete, onchangeResult, onchangeObservation,
     onchangeReset, buttonSave, startSession, finishTest }: PropsTableDefault) => {
 
@@ -65,7 +67,7 @@ const TableListTests = (
         </button>
       </div>
 
-      {loading ?
+      {testestLoading ?
         <span className="flex justify-center gap-2 items-center font-Kanit m-5 dark:text-gray-200">
           <img className="size-10 animate-spin"
             src={LoadingPNG} alt="Loading" />
@@ -121,16 +123,17 @@ const TableListTests = (
                   </div>
                 </td>
 
-                <td className="py-4 px-2 print:hidden">
+                <td className="py-4 px-2 print:hidden w-1/10">
                   <span className="flex gap-2 justify-around flex-col px-2">
-                    <button className="button disabled:bg-green-400/25 disabled:cursor-not-allowed bg-green-400
-                    flex items-center gap-2 justify-center"
+                    <button className="button disabled:opacity-50 disabled:cursor-not-allowed bg-green-400
+                    flex items-center gap-2 justify-center mx-auto"
                       onClick={() => buttonSave(item._id, item.resultado, item.observacao)}
-                      disabled={hasUser}> <FaRegSave /> Salvar</button>
+                      disabled={hasUser || saveLoading || deleteLoading}> <FaRegSave /> Salvar</button>
 
                     {!admin &&
                       <button className="button bg-red-400
-                       disabled:bg-red-400/25 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
+                       disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center mx-auto"
+                        disabled={deleteLoading || saveLoading}
                         onClick={() => buttonDelete(item._id)}> <FaRegTrashAlt /> Excluir</button>
                     }
                   </span>
@@ -141,7 +144,7 @@ const TableListTests = (
         </table>
       }
 
-      {loading || listaDe.length === 0 &&
+      {testestLoading || listaDe.length === 0 &&
         <p className="text-2xl m-5 dark:text-gray-200 flex justify-center">Nenhum teste encontrado</p>
       }
 

@@ -7,7 +7,6 @@ import {
   useGetAllGruposQuery,
   useGetAllSubGruposQuery,
   useGetAllTesteQuery,
-  useUpdateTesteMutation,
 } from "../../services/testeService";
 import { useFinishSessionMutation, usePostSessionMutation } from "../../services/sessionService";
 import TableListTests from "../../Components/Tables/TableListTests";
@@ -15,6 +14,7 @@ import ModalCadastro from "../../Components/ModalCadastros";
 import InputFilter from "../../Components/InputFilter";
 import AddTeste from "../../Components/Form/AddTeste";
 import AlertErro from "../../Pages/Error/AlertError";
+import useSaveTeste from "../../Hooks/useSaveTeste";
 
 
 export default function ListaDeTestes() {
@@ -22,8 +22,8 @@ export default function ListaDeTestes() {
   const { data: testes, isLoading: loadingTestes } = useGetAllTesteQuery();
   const { data: grupos } = useGetAllGruposQuery();
   const { data: subGrupos } = useGetAllSubGruposQuery();
-  const [updateTeste] = useUpdateTesteMutation();
-  const [deleteTeste] = useDeleteTesteMutation();
+  const { functionSaveTest, isLoading: saveLoading } = useSaveTeste();
+  const [deleteTeste, { isLoading: deleteLoading }] = useDeleteTesteMutation();
   const [postSession] = usePostSessionMutation();
   const [finishSession] = useFinishSessionMutation();
   const [grupoSelecionado, setGrupoSelecionado] = useState("");
@@ -96,17 +96,6 @@ export default function ListaDeTestes() {
     setTesteTemp((prev) =>
       prev.map((teste) => ({ ...teste, resultado: "Não Testado", observacao: "" }))
     );
-  };
-
-  const functionSaveTest = async (id: string, resultado: string, observacao: string | undefined) => {
-    const data = { id, resultado, observacao };
-    const res = await updateTeste(data);
-    if ("error" in res) {
-      MessagemToastify("Ocorreu erro ao salvar o Teste!", "error");
-      console.error(res.data);
-      return;
-    };
-    MessagemToastify("Teste salvo com Sucesso!", "success");
   };
 
   const functionDeleteTest = async (id: string) => {
@@ -196,7 +185,9 @@ export default function ListaDeTestes() {
       listaDe={testesFiltrados}
       hasUser={!user}
       admin={!user?.admin}
-      loading={loadingTestes}
+      saveLoading={saveLoading}
+      testestLoading={loadingTestes}
+      deleteLoading={deleteLoading}
       hasSession={sessionAtiva}
       hasGruposSelecionado={subGrupoSelecionado}
       onchangeResult={handleChange}

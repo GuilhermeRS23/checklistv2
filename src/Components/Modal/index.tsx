@@ -6,15 +6,34 @@ import { IoCloseSharp } from "react-icons/io5";
 import { FaRegEdit, FaRegSave } from "react-icons/fa";
 import { ArrowPathIcon, DocumentArrowDownIcon } from "@heroicons/react/20/solid";
 import { RootReducer } from "../../store";
-import useDeleteSave from "../../Hooks/useSaveDelete";
+import useSaveTeste from "../../Hooks/useSaveTeste";
 
 type PropsModal = { teste: ITeste }
 const Modal = ({ teste }: PropsModal) => {
   const [openModal, setOpenModal] = useState(false);
+  const [tempDescription, setTempDescription] = useState(teste.description);
   const [tempObs, setTempObs] = useState(teste.observacao);
   const [tempResult, setTempResult] = useState(teste.resultado);
-  const { functionSaveTest, isLoading } = useDeleteSave();
+  const [edit, setEdit] = useState(false);
+  const { functionSaveTest, isLoading } = useSaveTeste();
   const { user } = useSelector((state: RootReducer) => state.user);
+
+  const cancelarEdit = () => {
+    setTempDescription(teste.description);
+    setTempObs(teste.observacao);
+    setTempResult(teste.resultado);
+    setEdit(false);
+  };
+
+  const salvarEdit = () => {
+    functionSaveTest(teste._id, tempResult, tempObs, tempDescription);
+    setEdit(false);
+  };
+
+  const closeModal = () => {
+    setOpenModal(false);
+    cancelarEdit();
+  };
 
   return (
     <>
@@ -43,18 +62,30 @@ const Modal = ({ teste }: PropsModal) => {
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Caso de Uso
                   </h3>
-                  <button onClick={() => setOpenModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" data-modal-hide="static-modal">
+                  <button onClick={closeModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" data-modal-hide="static-modal">
                     <IoCloseSharp size={25} />
-                    <span className="sr-only">Close modal</span>
+                    <span className="sr-only">Fecha Modal</span>
                   </button>
                 </div>
               </div>
 
               {/* <!-- Modal Content --> */}
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed text-gray-700 dark:text-gray-200">
-                  {teste.description}
-                </p>
+                {!edit ? (
+                  <p className="text-base leading-relaxed text-gray-700 dark:text-gray-200">
+                    {teste.description}
+                  </p>
+                ) : (
+
+                  <textarea className="login_input resize-none"
+                    id="teste" rows={6}
+                    placeholder="Descreva o teste a ser feito..."
+                    value={tempDescription}
+                    onChange={(e) => setTempDescription(e.target.value)}
+                    minLength={3}
+                    required
+                  ></textarea>
+                )}
 
                 <div className="flex items-center gap-2 justify-between">
                   <div className="flex items-center gap-2">
@@ -101,29 +132,36 @@ const Modal = ({ teste }: PropsModal) => {
               <div className="px-4 pb-2 sm:flex sm:flex-row-reverse sm:px-6">
                 {user &&
                   <>
-                    <button
-                      type="button"
-                      onClick={() => alert("Em desenvolvimento")}
-                      className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:ml-3 sm:w-auto cursor-pointer"
-                    >
-                      <FaRegEdit /> Editar
-                    </button>
+                    {!edit ? (
+
+                      <button
+                        type="button"
+                        onClick={() => setEdit(true)}
+                        disabled={isLoading}
+                        className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop disabled:opacity-50"
+                      >
+                        <FaRegEdit /> Editar
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={cancelarEdit}
+                        className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto cursor-pointer"
+                      >
+                        <FaRegEdit /> Cancelar
+                      </button>
+                    )}
 
                     <button
                       type="button"
-                      onClick={() => functionSaveTest(teste._id, teste.description, tempResult, tempObs)}
-                      className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop"
+                      onClick={salvarEdit}
+                      className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto cursor-pointer
+                      disabled:cursor-no-drop disabled:opacity-50"
                       disabled={isLoading}
                     >
-                      {isLoading ? (
-                        <>
-                          <ArrowPathIcon className="size-5 animate-spin" />
-                          Salvando...
-                        </>
+                      {isLoading ? (<> <ArrowPathIcon className="size-5 animate-spin" /> Salvando... </>
                       ) :
-                        <>
-                          <FaRegSave /> Salvar
-                        </>
+                        <><FaRegSave /> Salvar </>
                       }
                     </button>
                   </>
