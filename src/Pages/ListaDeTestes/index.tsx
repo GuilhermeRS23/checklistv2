@@ -198,7 +198,7 @@ export default function ListaDeTestes() {
       startSession={iniciarTestes}
       finishTest={finalizarTestes}
     >
-      <div className="m-2 flex gap-5 justify-between print:hidden">
+      <div className="m-2 flex gap-5 justify-between print:hidden max-[769px]:flex-col">
         <InputFilter
           id="grupo"
           labelTitulo="Grupo"
@@ -218,14 +218,13 @@ export default function ListaDeTestes() {
           disabled={!grupoSelecionado}
         />
 
-        <div className="w-full">
+        <div className="w-full items-center max-[769px]:flex">
           <label htmlFor="resultado" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
             Resultado
           </label>
           <select id="resultado"
             className="print:bg-transparent print:border-0 print:font-medium
-           block p-2 w-full mb-5 text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-0 focus:border-gray-200 peer
-          "
+           block p-2 w-full text-sm text-gray-800 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
             onChange={(event) => setResultadoSelecionado(event.target.value)}
             value={resultadoSelecionado}
           >

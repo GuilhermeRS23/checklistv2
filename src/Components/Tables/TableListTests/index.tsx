@@ -73,14 +73,14 @@ const TableListTests = (
             src={LoadingPNG} alt="Loading" />
           Carregando testes...
         </span> :
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sm:overflow-x-auto">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 md:overflow-x-auto">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">Casos de Uso</th>
               <th scope="col" className="px-6 py-3">Visualizar</th>
-              <th scope="col" className="px-6 py-3">Resultado</th>
-              <th scope="col" className="px-6 py-3 print:hidden">Observações</th>
-              <th scope="col" className="px-6 py-3 print:hidden">Ações</th>
+              <th scope="col" className="px-6 py-3 max-[769px]:hidden">Resultado</th>
+              <th scope="col" className="px-6 py-3 print:hidden max-[769px]:hidden">Observações</th>
+              <th scope="col" className="px-6 py-3 print:hidden max-[769px]:hidden">Ações</th>
             </tr>
           </thead>
 
@@ -88,13 +88,13 @@ const TableListTests = (
             {listaDe.map((item) => (
               <tr key={item._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-gray-200 sm:w-full md:w-5/10">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-gray-200 md:w-5/10">
                   {item.description}
                 </th>
-                <td className="px-6 py-4 text-gray-800 dark:text-gray-200 print:hidden">
+                <td className="px-6 py-4 text-gray-800 dark:text-gray-200 print:hidden max-[769px]:w-1/10">
                   <Modal teste={item} />
                 </td>
-                <td className="px-2 py-4">
+                <td className="px-2 py-4 max-[769px]:hidden">
                   <label htmlFor="resultado" className="sr-only">
                     Resultado
                   </label>
@@ -108,7 +108,7 @@ const TableListTests = (
                   </select>
                 </td>
 
-                <td className="px-2 py-4">
+                <td className="px-2 py-4 max-[769px]:hidden">
                   <div className="w-full m-auto">
                     <label htmlFor="text"
                       className="block font-Oswald dark:text-gray-400">
@@ -123,7 +123,7 @@ const TableListTests = (
                   </div>
                 </td>
 
-                <td className="py-4 px-2 print:hidden w-1/10">
+                <td className="py-4 px-2 print:hidden w-1/10 max-[769px]:hidden">
                   <span className="flex gap-2 justify-around flex-col px-2">
                     <button className="button disabled:opacity-50 disabled:cursor-not-allowed bg-green-400
                     flex items-center gap-2 justify-center mx-auto"

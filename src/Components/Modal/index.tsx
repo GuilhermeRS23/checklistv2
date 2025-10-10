@@ -52,8 +52,8 @@ const Modal = ({ teste }: PropsModal) => {
             <DialogPanel
               transition
               className="relative transform overflow-hidden rounded-lg bg-white text-left  dark:bg-gray-700 shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200
-              md:w-full md:max-w-3xl
-              data-leave:ease-in sm:my-5 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+              md:w-9/10 md:max-w-3xl
+              data-leave:ease-in sm:w-9/10 sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             >
 
               <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -133,11 +133,10 @@ const Modal = ({ teste }: PropsModal) => {
                 {user &&
                   <>
                     {!edit ? (
-
                       <button
                         type="button"
                         onClick={() => setEdit(true)}
-                        disabled={isLoading}
+                        disabled={isLoading || !user.admin}
                         className="inline-flex w-full gap-1 items-center justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:ml-3 sm:w-auto cursor-pointer disabled:cursor-no-drop disabled:opacity-50"
                       >
                         <FaRegEdit /> Editar

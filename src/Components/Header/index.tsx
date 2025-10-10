@@ -39,7 +39,8 @@ const Header = () => {
   return (
     <>
       <Toastify />
-      <header className="flex h-20 self-center justify-between bg-sky-500 text-white px-4 w-full items-center">
+      <header className="flex h-20 self-center justify-between bg-sky-500 text-white px-4 w-full items-center
+      sm: text-sm">
         <Link to="/" className="flex items-center gap-2">
           <CheckBadgeIcon className="size-10" />
           <h1 className="text-2xl font-bold text-nowrap">CHECKLIST V2.0</h1>
@@ -50,7 +51,7 @@ const Header = () => {
             {user?.admin &&
               <p className="font-bold text-red-400 px-2 bg-sky-300 rounded-2xl print:hidden">Admin</p>
             }
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 max-sm:hidden">
               <h1 className="text-2xl print:hidden">Olá, {user?.name || "Técnico(a)"}</h1>
               <h1 className="text-2xl hidden print:block">{user?.name || "Técnico(a)"}</h1>
               {user !== null ? (

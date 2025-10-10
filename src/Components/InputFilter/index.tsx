@@ -10,7 +10,7 @@ interface PropsInputFilter {
 
 const InputFilter = ({ listaDe, selectText, labelTitulo, id, setValor, disabled, value }: PropsInputFilter) => {
   return (
-    <div className="w-full">
+    <div className="w-full items-center max-[769px]:flex">
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         {labelTitulo}
       </label>
