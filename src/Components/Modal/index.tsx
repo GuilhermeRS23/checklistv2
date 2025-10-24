@@ -71,21 +71,15 @@ const Modal = ({ teste }: PropsModal) => {
 
               {/* <!-- Modal Content --> */}
               <div className="p-4 md:p-5 space-y-4">
-                {!edit ? (
-                  <p className="text-base leading-relaxed text-gray-700 dark:text-gray-200">
-                    {teste.description}
-                  </p>
-                ) : (
-
-                  <textarea className="login_input resize-none"
-                    id="teste" rows={6}
-                    placeholder="Descreva o teste a ser feito..."
-                    value={tempDescription}
-                    onChange={(e) => setTempDescription(e.target.value)}
-                    minLength={3}
-                    required
-                  ></textarea>
-                )}
+                <textarea className="bg-sky-100 px-1 py-2 pl-3 rounded-xl w-full outline-none dark:text-gray-900 dark:bg-slate-300 placeholder:font-Oswald focus:border-green-300 focus:border-2 invalid:focus:border-red-500 resize-y disabled:bg-transparent disabled:text-gray-900 disabled:dark:text-gray-200 disabled:cursor-text disabled:dark:bg-transparent"
+                  id="teste" rows={6}
+                  placeholder="Descreva o teste a ser feito..."
+                  value={tempDescription}
+                  onChange={(e) => setTempDescription(e.target.value)}
+                  minLength={3}
+                  required
+                  disabled={!edit}
+                ></textarea>
 
                 <div className="flex items-center gap-2 justify-between">
                   <div className="flex items-center gap-2">
