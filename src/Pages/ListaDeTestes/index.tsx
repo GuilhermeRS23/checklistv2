@@ -22,7 +22,7 @@ export default function ListaDeTestes() {
   const { data: testes, isLoading: loadingTestes } = useGetAllTesteQuery();
   const { data: grupos } = useGetAllGruposQuery();
   const { data: subGrupos } = useGetAllSubGruposQuery();
-  const { functionSaveTest, isLoading: saveLoading } = useSaveTeste();
+  const { functionSaveTest, isLoading: saveLoading, isSuccess } = useSaveTeste();
   const [deleteTeste, { isLoading: deleteLoading }] = useDeleteTesteMutation();
   const [postSession] = usePostSessionMutation();
   const [finishSession] = useFinishSessionMutation();
@@ -93,9 +93,11 @@ export default function ListaDeTestes() {
   };
 
   const resetarTestes = () => {
-    setTesteTemp((prev) =>
-      prev.map((teste) => ({ ...teste, resultado: "Não Testado", observacao: "" }))
-    );
+    const testes = testesFiltrados.map(teste => ({ ...teste, resultado: "Não Testado", observacao: "" }));
+    testes.map((testeResetado) => functionSaveTest(testeResetado._id, testeResetado.resultado, testeResetado.observacao));
+    if (isSuccess) {
+      MessagemToastify("Testes resetados com sucesso!", "success");
+    }
   };
 
   const functionDeleteTest = async (id: string) => {
