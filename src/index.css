@@ -4,34 +4,46 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-Oswald: 'Oswald', sans-serif;
-    --font-Barlow: 'Barlow', sans-serif;
-    --font-Kanit: 'Kanit', sans-serif;
-    --font-Noto: 'Noto Sans', sans-serif;
+  --font-Oswald: 'Oswald', sans-serif;
+  --font-Barlow: 'Barlow', sans-serif;
+  --font-Kanit: 'Kanit', sans-serif;
+  --font-Noto: 'Noto Sans', sans-serif;
 }
 
 @layer components {
-    body {
-        font-family: var(--font-Barlow);
-    }
+  body {
+    font-family: var(--font-Barlow);
+  }
 
-    .button {
-        @apply rounded-lg px-3 py-1 text-zinc-50 cursor-pointer disabled:cursor-not-allowed;
-    }
+  .button {
+    @apply rounded-lg px-3 py-1 text-zinc-50 cursor-pointer disabled:cursor-not-allowed;
+  }
 
-    .login_button {
-        @apply bg-sky-600 text-gray-100 py-1 px-3 rounded-lg font-Kanit active:bg-green-400 hover:shadow-md hover:shadow-gray-400 hover:animate-pulse hover:bg-gradient-to-r hover:from-sky-300 cursor-pointer;
-    }
+  .login_button {
+    @apply bg-sky-600 text-gray-100 py-1 px-3 rounded-lg font-Kanit active:bg-green-400 hover:shadow-md hover:shadow-gray-400 hover:animate-pulse hover:bg-gradient-to-r hover:from-sky-300 cursor-pointer;
+  }
 
-    .login_input {
-        @apply bg-sky-100 mt-1 px-1 py-2 pl-3 rounded-xl w-full outline-none dark:text-gray-900 dark:bg-slate-300 placeholder:font-Oswald focus:border-green-300 focus:border-2 invalid:focus:border-red-500
-    }
+  .login_input {
+    @apply bg-sky-100 mt-1 px-1 py-2 pl-3 rounded-xl w-full outline-none dark:text-gray-900 dark:bg-slate-300 placeholder:font-Oswald focus:border-green-300 focus:border-2 invalid:focus:border-red-500
+  }
 
-    h1 {
-        @apply font-Oswald font-bold text-lg dark:text-gray-100
-    }
+  h1 {
+    @apply font-Oswald font-bold text-lg dark:text-gray-100
+  }
 
-    .menuDrop_menuItems {
-        @apply absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in
-    }
+  .menuDrop_menuItems {
+    @apply absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari e Opera */
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE e Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 }
