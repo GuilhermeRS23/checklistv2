@@ -24,7 +24,7 @@ const AddGrupo = () => {
   };
 
   return (
-    <div className="my-5 shadow-md pb-5">
+    <div className="shadow-md p-5">
       <form
         onSubmit={handeSubmit}
         className="flex flex-col items-center justify-center gap-6"

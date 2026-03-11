@@ -12,7 +12,7 @@ interface PropsInput {
 const Input = ({ id, type, placeholder, label, value, required = true, setValor,
 }: PropsInput) => {
   return (
-    <div className="w-10/12">
+    <div className="w-full px-1">
       <label htmlFor={type}
         className="block font-Oswald dark:text-gray-400">
         {label}

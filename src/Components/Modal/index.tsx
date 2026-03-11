@@ -7,6 +7,7 @@ import { FaRegEdit, FaRegSave } from "react-icons/fa";
 import { ArrowPathIcon, DocumentArrowDownIcon } from "@heroicons/react/20/solid";
 import { RootReducer } from "../../store";
 import useSaveTeste from "../../Hooks/useSaveTeste";
+import Input from "../../Components/Input";
 
 type PropsModal = { teste: ITeste }
 const Modal = ({ teste }: PropsModal) => {
@@ -14,6 +15,7 @@ const Modal = ({ teste }: PropsModal) => {
   const [tempDescription, setTempDescription] = useState(teste.description);
   const [tempObs, setTempObs] = useState(teste.observacao);
   const [tempResult, setTempResult] = useState(teste.resultado);
+  const [tempFiles, setTempFiles] = useState(teste.files);
   const [edit, setEdit] = useState(false);
   const { functionSaveTest, isLoading } = useSaveTeste();
   const { user } = useSelector((state: RootReducer) => state.user);
@@ -22,11 +24,12 @@ const Modal = ({ teste }: PropsModal) => {
     setTempDescription(teste.description);
     setTempObs(teste.observacao);
     setTempResult(teste.resultado);
+    setTempFiles(teste.files);
     setEdit(false);
   };
 
   const salvarEdit = () => {
-    functionSaveTest(teste._id, tempResult, tempObs, tempDescription);
+    functionSaveTest(teste._id, tempResult, tempObs, tempDescription, tempFiles);
     setEdit(false);
   };
 
@@ -72,14 +75,20 @@ const Modal = ({ teste }: PropsModal) => {
               {/* <!-- Modal Content --> */}
               <div className="p-4 md:p-5 space-y-4">
                 {edit ? (
-                  <textarea className="bg-sky-100 px-1 py-2 pl-3 rounded-xl w-full outline-none dark:text-gray-900 dark:bg-slate-300 placeholder:font-Oswald focus:border-green-300 focus:border-2 invalid:focus:border-red-500 resize-y disabled:bg-transparent disabled:text-gray-900 disabled:dark:text-gray-200 disabled:cursor-text disabled:dark:bg-transparent"
-                    id="teste" rows={6}
-                    placeholder="Descreva o teste a ser feito..."
-                    value={tempDescription}
-                    onChange={(e) => setTempDescription(e.target.value)}
-                    minLength={3}
-                    required
-                  ></textarea>
+                  <>
+                    <textarea className="bg-sky-100 px-1 py-2 pl-3 rounded-xl w-full outline-none dark:text-gray-900 dark:bg-slate-300 placeholder:font-Oswald focus:border-green-300 focus:border-2 invalid:focus:border-red-500 resize-y disabled:bg-transparent disabled:text-gray-900 disabled:dark:text-gray-200 disabled:cursor-text disabled:dark:bg-transparent"
+                      id="teste" rows={6}
+                      placeholder="Descreva o teste a ser feito..."
+                      value={tempDescription}
+                      onChange={(e) => setTempDescription(e.target.value)}
+                      minLength={3}
+                      required
+                    ></textarea>
+
+                    <Input id="link" label="Link" placeholder="Link para manual..."
+                      type="text" setValor={setTempFiles} value={tempFiles}
+                      required={false} />
+                  </>
                 ) : (
                   <p className="whitespace-pre-line px-1 py-2 pl-3 rounded-xl w-full dark:text-gray-200 placeholder:font-Oswald focus:border-green-300 bg-transparent">{tempDescription}</p>
                 )}
@@ -99,7 +108,7 @@ const Modal = ({ teste }: PropsModal) => {
                     </select>
                   </div>
 
-                  {teste.files && (
+                  {(teste.files && !edit) && (
                     <span>
                       <a href={teste.files} target="_blank" rel="noopener noreferrer"
                         title="Instrução" className="mx-auto flex gap-2 justify-around px-2

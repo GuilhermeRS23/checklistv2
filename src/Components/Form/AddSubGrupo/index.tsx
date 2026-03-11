@@ -34,7 +34,7 @@ const AddSubGrupo = () => {
   if (!grupos) return [];
 
   return (
-    <div className="my-5">
+    <div className="p-5">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center gap-6 my-5"
@@ -50,7 +50,7 @@ const AddSubGrupo = () => {
           value={subGrupo}
         />
 
-        <div className="w-10/12">
+        <div className="w-full">
           <label htmlFor="grupo" className="block font-Oswald dark:text-gray-400">
             Associe a um Grupo
           </label>

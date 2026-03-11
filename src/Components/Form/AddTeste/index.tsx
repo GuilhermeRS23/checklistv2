@@ -35,7 +35,7 @@ const AddTeste = (body: { grupo: string, subgrupo: string }) => {
   };
 
   return (
-    <div className="my-5 pb-5">
+    <div className="p-5">
       <form
         onSubmit={handeSubmit}
         className="flex flex-col items-center justify-center gap-6"
@@ -56,10 +56,8 @@ const AddTeste = (body: { grupo: string, subgrupo: string }) => {
           type="text"
           setValor={setFiles}
           value={files}
-          required={false}
-        >
+          required={false} />
 
-        </Input>
         <Button type="submit"
           disabled={isLoading}>
           Adicionar Teste

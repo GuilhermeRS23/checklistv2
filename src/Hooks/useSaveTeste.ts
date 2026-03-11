@@ -4,8 +4,8 @@ import { useUpdateTesteMutation } from "../services/testeService";
 const useSaveTeste = () => {
   const [updateTeste, { isLoading, isSuccess }] = useUpdateTesteMutation();
 
-  const functionSaveTest = async (id: string, resultado: string, observacao: string | undefined, description?: string) => {
-    const data = { id, description, resultado, observacao };
+  const functionSaveTest = async (id: string, resultado: string, observacao: string | undefined, description?: string, files?: string | undefined) => {
+    const data = { id, description, resultado, observacao, files };
     const res = await updateTeste(data);
     if ("error" in res) {
       MessagemToastify("Ocorreu erro ao salvar o teste!", "error");
